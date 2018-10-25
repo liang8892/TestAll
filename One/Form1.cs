@@ -19,7 +19,20 @@ namespace One
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ComputerHandler.Transport("");
+            Transport("");
+        }
+
+
+        public static void Transport(string saverType)
+        {
+            Computer computer = new Computer(new DataSaverClass.MP3Class());
+            computer.DoTranport();
+            computer.Saver = new DataSaverClass.UCardClass();
+            computer.DoTranport();
+            computer.Saver = new DataSaverClass.HardDisk();
+            computer.DoTranport();
+            computer.Saver = new DataSaverClass.SuperStorageAdapter();
+            computer.DoTranport();
         }
     }
 }

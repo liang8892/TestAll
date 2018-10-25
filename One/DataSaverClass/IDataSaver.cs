@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One
+namespace One.DataSaverClass
 {
     interface IDataSaver
     {
