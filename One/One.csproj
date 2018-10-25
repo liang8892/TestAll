@@ -47,8 +47,8 @@
   <ItemGroup>
     <Compile Include="Computer.cs" />
     <Compile Include="ComputerHandler.cs" />
-    <Compile Include="DataSvaerClass\MP3Class.cs" />
-    <Compile Include="DataSvaerClass\UCardClass.cs" />
+    <Compile Include="DataSaverClass\MP3Class.cs" />
+    <Compile Include="DataSaverClass\UCardClass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +58,9 @@
     <Compile Include="IDataSaver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

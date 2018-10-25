@@ -8,6 +8,10 @@ namespace One
 {
     class Computer
     {
-
+        public void DoTranport(IDataSaver saver)
+        {
+            saver.Read();
+            saver.Write();
+        }
     }
 }

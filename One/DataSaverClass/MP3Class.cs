@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.DataSvaerClass
+namespace One.DataSaverClass
 {
     class MP3Class:IDataSaver
     {
