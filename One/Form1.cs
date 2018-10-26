@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using One.DataSaverClass;
 
 namespace One
 {
@@ -25,13 +26,16 @@ namespace One
 
         public static void Transport(string saverType)
         {
-            Computer computer = new Computer(new DataSaverClass.MP3Class());
+            Computer computer = new Computer(new MP3Class());
             computer.DoTranport();
-            computer.Saver = new DataSaverClass.UCardClass();
+
+            computer.Saver = new UCardClass();
             computer.DoTranport();
-            computer.Saver = new DataSaverClass.HardDisk();
+
+            computer.Saver = new HardDisk();
             computer.DoTranport();
-            computer.Saver = new DataSaverClass.SuperStorageAdapter();
+
+            computer.Saver = new SuperStorageAdapter(new SuperStorage());
             computer.DoTranport();
         }
     }

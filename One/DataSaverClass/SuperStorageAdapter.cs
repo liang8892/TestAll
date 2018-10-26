@@ -8,7 +8,20 @@ namespace One.DataSaverClass
 {
     class SuperStorageAdapter : IDataSaver
     {
-        private SuperStorage _super = new SuperStorage();
+        private SuperStorage _super;
+
+        public SuperStorage Super
+        {
+            get { return _super; }
+            set { _super = value; }
+        }
+
+        public SuperStorageAdapter() { }
+
+        public SuperStorageAdapter(SuperStorage super)
+        {
+            _super = super;
+        }
 
         public void Read()
         {
