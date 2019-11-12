@@ -19,6 +19,7 @@ namespace HAP
             var startUrl = Console.ReadLine();
             var helper = new Helper();
             var downPageUrls = helper.GetDownPageUrls(startUrl);
+            Console.WriteLine("Analysising...");
             var fileUrls = helper.GetFileUrl(downPageUrls);
             if (helper.Export(fileUrls))
                 Console.WriteLine("Export Successful!");
@@ -83,7 +84,10 @@ namespace HAP
                         var aNode = tr.SelectSingleNode("./td/a");
                         var href = aNode.Attributes["href"].Value;
                         lock (locker)
-                            result.Add(key, href);
+                        {
+                            if (!result.Keys.Contains(key))
+                                result.Add(key, href);
+                        }
                     }
                 }
             });
