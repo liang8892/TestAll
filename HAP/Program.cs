@@ -15,8 +15,10 @@ namespace HAP
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Start Url:");
+            var startUrl = Console.ReadLine();
             var helper = new Helper();
-            var downPageUrls = helper.GetDownPageUrls();
+            var downPageUrls = helper.GetDownPageUrls(startUrl);
             var fileUrls = helper.GetFileUrl(downPageUrls);
             if (helper.Export(fileUrls))
                 Console.WriteLine("Export Successful!");
@@ -31,11 +33,11 @@ namespace HAP
     {
         private object locker = new object();
 
-        public Dictionary<string, string> GetDownPageUrls()
+        public Dictionary<string, string> GetDownPageUrls(string startUrl)
         {
             var downPageUrls = new Dictionary<string, string>();
             HtmlWeb htmlWeb = new HtmlWeb();
-            var htmlDoc = htmlWeb.Load(GlobalParas.url);
+            var htmlDoc = htmlWeb.Load(startUrl);
             var node = htmlDoc.DocumentNode.SelectSingleNode(GlobalParas.divList);
 
             foreach (HtmlNode secondNode in node.ChildNodes)

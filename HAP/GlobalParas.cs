@@ -8,7 +8,6 @@ namespace HAP
 {
     public static class GlobalParas
     {
-        public const string url = "http://www.kekenet.com/Article/17422/";
         public const string divList = "//div[@id='List1']";
         public const string KekeWebsite = "http://www.kekenet.com";
         public const string Down = "下载地址";
