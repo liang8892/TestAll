@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UsersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_userinfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Limit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="oImage" Type="image" />
+          <Property Name="KaoQin" Type="nvarchar" MaxLength="20" />
+          <Property Name="AtWork" Type="smallint" />
+          <Property Name="outworktime" Type="date" />
+          <Property Name="inworktime" Type="date" />
+          <Property Name="signname" Type="image" />
+          <Property Name="Desktop" Type="varchar" MaxLength="500" />
+          <Property Name="ActiveTime" Type="datetime" />
+          <Property Name="Role_OA" Type="varchar" MaxLength="50" />
+          <Property Name="Role_PX" Type="varchar" MaxLength="50" />
+          <Property Name="Existed" Type="bit" />
+        </EntityType>
+        <EntityType Name="tb_XXUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="英文名" Type="varchar" MaxLength="50" />
+          <Property Name="部门" Type="nvarchar" MaxLength="255" />
+          <Property Name="YwzID" Type="int" />
+          <Property Name="性别" Type="float" />
+          <Property Name="职务" Type="nvarchar" MaxLength="255" />
+          <Property Name="任职时间" Type="date" />
+          <Property Name="级别" Type="varchar" MaxLength="50" />
+          <Property Name="民族" Type="nvarchar" MaxLength="255" />
+          <Property Name="政治面貌" Type="nvarchar" MaxLength="255" />
+          <Property Name="籍贯" Type="nvarchar" MaxLength="255" />
+          <Property Name="身份证号" Type="nvarchar" MaxLength="255" />
+          <Property Name="学历" Type="nvarchar" MaxLength="255" />
+          <Property Name="专业" Type="nvarchar" MaxLength="255" />
+          <Property Name="毕业学校" Type="nvarchar" MaxLength="255" />
+          <Property Name="毕业时间" Type="datetime" />
+          <Property Name="学位" Type="nvarchar" MaxLength="255" />
+          <Property Name="学历1" Type="nvarchar" MaxLength="255" />
+          <Property Name="专业1" Type="nvarchar" MaxLength="255" />
+          <Property Name="毕业学校1" Type="nvarchar" MaxLength="255" />
+          <Property Name="毕业时间1" Type="datetime" />
+          <Property Name="学位1" Type="nvarchar" MaxLength="255" />
+          <Property Name="职称" Type="nvarchar" MaxLength="255" />
+          <Property Name="职称取得时间" Type="date" />
+          <Property Name="户口所在地" Type="nvarchar" MaxLength="255" />
+          <Property Name="入职时间" Type="datetime" />
+          <Property Name="以往在职" Type="nvarchar" MaxLength="255" />
+          <Property Name="户口性质" Type="nvarchar" MaxLength="255" />
+          <Property Name="家庭住址" Type="nvarchar" MaxLength="255" />
+          <Property Name="联系电话" Type="nvarchar" MaxLength="50" />
+          <Property Name="在秦居住地" Type="nvarchar" MaxLength="255" />
+          <Property Name="家庭成员" Type="nvarchar" MaxLength="255" />
+          <Property Name="婚育状况" Type="nvarchar" MaxLength="255" />
+          <Property Name="结婚时间" Type="datetime" />
+          <Property Name="生育时间" Type="datetime" />
+          <Property Name="家庭电话" Type="nvarchar" MaxLength="100" />
+          <Property Name="参加工作时间" Type="datetime" />
+          <Property Name="以往工作经历" Type="nvarchar" MaxLength="255" />
+          <Property Name="工龄调整月份" Type="float" />
+          <Property Name="现工龄工资" Type="float" />
+          <Property Name="核算月份" Type="date" />
+          <Property Name="劳动合同状态" Type="nvarchar" MaxLength="255" />
+          <Property Name="劳动合同签订时间" Type="date" />
+          <Property Name="劳动合同到期时间" Type="date" />
+          <Property Name="其它" Type="nvarchar" MaxLength="255" />
+          <Property Name="照片" Type="image" />
+          <Property Name="在职" Type="bit" />
+          <Property Name="现工龄" Type="numeric" Precision="10" Scale="1" />
+          <Property Name="可计算工龄" Type="numeric" Precision="10" Scale="1" />
+          <Property Name="签名" Type="image" />
+          <Property Name="离职日期" Type="date" />
+          <Property Name="离职原因" Type="nvarchar" MaxLength="1000" />
+          <Property Name="公司座机" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsRealExist" Type="bit" />
+          <Property Name="核对完成" Type="int" />
+        </EntityType>
+        <Association Name="FK_tb_XXUser_tb_userinfo">
+          <End Role="tb_userinfo" Type="Self.tb_userinfo" Multiplicity="0..1" />
+          <End Role="tb_XXUser" Type="Self.tb_XXUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_userinfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_XXUser">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UsersModelStoreContainer">
+          <EntitySet Name="tb_userinfo" EntityType="Self.tb_userinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_XXUser" EntityType="Self.tb_XXUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tb_XXUser_tb_userinfo" Association="Self.FK_tb_XXUser_tb_userinfo">
+            <End Role="tb_userinfo" EntitySet="tb_userinfo" />
+            <End Role="tb_XXUser" EntitySet="tb_XXUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UsersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_userinfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Limit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="oImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="KaoQin" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AtWork" Type="Int16" />
+          <Property Name="outworktime" Type="DateTime" Precision="0" />
+          <Property Name="inworktime" Type="DateTime" Precision="0" />
+          <Property Name="signname" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Desktop" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveTime" Type="DateTime" Precision="3" />
+          <Property Name="Role_OA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role_PX" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Existed" Type="Boolean" />
+          <NavigationProperty Name="tb_XXUser" Relationship="Self.FK_tb_XXUser_tb_userinfo" FromRole="tb_userinfo" ToRole="tb_XXUser" />
+        </EntityType>
+        <EntityType Name="tb_XXUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="英文名" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="部门" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="YwzID" Type="Int32" />
+          <Property Name="性别" Type="Double" />
+          <Property Name="职务" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="任职时间" Type="DateTime" Precision="0" />
+          <Property Name="级别" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="民族" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="政治面貌" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="籍贯" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="身份证号" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="学历" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="专业" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="毕业学校" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="毕业时间" Type="DateTime" Precision="3" />
+          <Property Name="学位" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="学历1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="专业1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="毕业学校1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="毕业时间1" Type="DateTime" Precision="3" />
+          <Property Name="学位1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="职称" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="职称取得时间" Type="DateTime" Precision="0" />
+          <Property Name="户口所在地" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="入职时间" Type="DateTime" Precision="3" />
+          <Property Name="以往在职" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="户口性质" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="家庭住址" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="联系电话" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="在秦居住地" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="家庭成员" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="婚育状况" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="结婚时间" Type="DateTime" Precision="3" />
+          <Property Name="生育时间" Type="DateTime" Precision="3" />
+          <Property Name="家庭电话" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="参加工作时间" Type="DateTime" Precision="3" />
+          <Property Name="以往工作经历" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="工龄调整月份" Type="Double" />
+          <Property Name="现工龄工资" Type="Double" />
+          <Property Name="核算月份" Type="DateTime" Precision="0" />
+          <Property Name="劳动合同状态" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="劳动合同签订时间" Type="DateTime" Precision="0" />
+          <Property Name="劳动合同到期时间" Type="DateTime" Precision="0" />
+          <Property Name="其它" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="照片" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="在职" Type="Boolean" />
+          <Property Name="现工龄" Type="Decimal" Precision="10" Scale="1" />
+          <Property Name="可计算工龄" Type="Decimal" Precision="10" Scale="1" />
+          <Property Name="签名" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="离职日期" Type="DateTime" Precision="0" />
+          <Property Name="离职原因" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="公司座机" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsRealExist" Type="Boolean" />
+          <Property Name="核对完成" Type="Int32" />
+          <NavigationProperty Name="tb_userinfo" Relationship="Self.FK_tb_XXUser_tb_userinfo" FromRole="tb_XXUser" ToRole="tb_userinfo" />
+        </EntityType>
+        <Association Name="FK_tb_XXUser_tb_userinfo">
+          <End Role="tb_userinfo" Type="Self.tb_userinfo" Multiplicity="0..1" />
+          <End Role="tb_XXUser" Type="Self.tb_XXUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_userinfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_XXUser">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UsersEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_userinfo" EntityType="Self.tb_userinfo" />
+          <EntitySet Name="tb_XXUser" EntityType="Self.tb_XXUser" />
+          <AssociationSet Name="FK_tb_XXUser_tb_userinfo" Association="Self.FK_tb_XXUser_tb_userinfo">
+            <End Role="tb_userinfo" EntitySet="tb_userinfo" />
+            <End Role="tb_XXUser" EntitySet="tb_XXUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UsersModelStoreContainer" CdmEntityContainer="UsersEntities">
+          <EntitySetMapping Name="tb_userinfo">
+            <EntityTypeMapping TypeName="UsersModel.tb_userinfo">
+              <MappingFragment StoreEntitySet="tb_userinfo">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="oImage" ColumnName="oImage" />
+                <ScalarProperty Name="KaoQin" ColumnName="KaoQin" />
+                <ScalarProperty Name="AtWork" ColumnName="AtWork" />
+                <ScalarProperty Name="outworktime" ColumnName="outworktime" />
+                <ScalarProperty Name="inworktime" ColumnName="inworktime" />
+                <ScalarProperty Name="signname" ColumnName="signname" />
+                <ScalarProperty Name="Desktop" ColumnName="Desktop" />
+                <ScalarProperty Name="ActiveTime" ColumnName="ActiveTime" />
+                <ScalarProperty Name="Role_OA" ColumnName="Role_OA" />
+                <ScalarProperty Name="Role_PX" ColumnName="Role_PX" />
+                <ScalarProperty Name="Existed" ColumnName="Existed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_XXUser">
+            <EntityTypeMapping TypeName="UsersModel.tb_XXUser">
+              <MappingFragment StoreEntitySet="tb_XXUser">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="英文名" ColumnName="英文名" />
+                <ScalarProperty Name="部门" ColumnName="部门" />
+                <ScalarProperty Name="YwzID" ColumnName="YwzID" />
+                <ScalarProperty Name="性别" ColumnName="性别" />
+                <ScalarProperty Name="职务" ColumnName="职务" />
+                <ScalarProperty Name="任职时间" ColumnName="任职时间" />
+                <ScalarProperty Name="级别" ColumnName="级别" />
+                <ScalarProperty Name="民族" ColumnName="民族" />
+                <ScalarProperty Name="政治面貌" ColumnName="政治面貌" />
+                <ScalarProperty Name="籍贯" ColumnName="籍贯" />
+                <ScalarProperty Name="身份证号" ColumnName="身份证号" />
+                <ScalarProperty Name="学历" ColumnName="学历" />
+                <ScalarProperty Name="专业" ColumnName="专业" />
+                <ScalarProperty Name="毕业学校" ColumnName="毕业学校" />
+                <ScalarProperty Name="毕业时间" ColumnName="毕业时间" />
+                <ScalarProperty Name="学位" ColumnName="学位" />
+                <ScalarProperty Name="学历1" ColumnName="学历1" />
+                <ScalarProperty Name="专业1" ColumnName="专业1" />
+                <ScalarProperty Name="毕业学校1" ColumnName="毕业学校1" />
+                <ScalarProperty Name="毕业时间1" ColumnName="毕业时间1" />
+                <ScalarProperty Name="学位1" ColumnName="学位1" />
+                <ScalarProperty Name="职称" ColumnName="职称" />
+                <ScalarProperty Name="职称取得时间" ColumnName="职称取得时间" />
+                <ScalarProperty Name="户口所在地" ColumnName="户口所在地" />
+                <ScalarProperty Name="入职时间" ColumnName="入职时间" />
+                <ScalarProperty Name="以往在职" ColumnName="以往在职" />
+                <ScalarProperty Name="户口性质" ColumnName="户口性质" />
+                <ScalarProperty Name="家庭住址" ColumnName="家庭住址" />
+                <ScalarProperty Name="联系电话" ColumnName="联系电话" />
+                <ScalarProperty Name="在秦居住地" ColumnName="在秦居住地" />
+                <ScalarProperty Name="家庭成员" ColumnName="家庭成员" />
+                <ScalarProperty Name="婚育状况" ColumnName="婚育状况" />
+                <ScalarProperty Name="结婚时间" ColumnName="结婚时间" />
+                <ScalarProperty Name="生育时间" ColumnName="生育时间" />
+                <ScalarProperty Name="家庭电话" ColumnName="家庭电话" />
+                <ScalarProperty Name="参加工作时间" ColumnName="参加工作时间" />
+                <ScalarProperty Name="以往工作经历" ColumnName="以往工作经历" />
+                <ScalarProperty Name="工龄调整月份" ColumnName="工龄调整月份" />
+                <ScalarProperty Name="现工龄工资" ColumnName="现工龄工资" />
+                <ScalarProperty Name="核算月份" ColumnName="核算月份" />
+                <ScalarProperty Name="劳动合同状态" ColumnName="劳动合同状态" />
+                <ScalarProperty Name="劳动合同签订时间" ColumnName="劳动合同签订时间" />
+                <ScalarProperty Name="劳动合同到期时间" ColumnName="劳动合同到期时间" />
+                <ScalarProperty Name="其它" ColumnName="其它" />
+                <ScalarProperty Name="照片" ColumnName="照片" />
+                <ScalarProperty Name="在职" ColumnName="在职" />
+                <ScalarProperty Name="现工龄" ColumnName="现工龄" />
+                <ScalarProperty Name="可计算工龄" ColumnName="可计算工龄" />
+                <ScalarProperty Name="签名" ColumnName="签名" />
+                <ScalarProperty Name="离职日期" ColumnName="离职日期" />
+                <ScalarProperty Name="离职原因" ColumnName="离职原因" />
+                <ScalarProperty Name="公司座机" ColumnName="公司座机" />
+                <ScalarProperty Name="IsRealExist" ColumnName="IsRealExist" />
+                <ScalarProperty Name="核对完成" ColumnName="核对完成" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
