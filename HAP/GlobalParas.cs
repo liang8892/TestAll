@@ -8,7 +8,7 @@ namespace HAP
 {
     public static class GlobalParas
     {
-        public const string divList = "//div[@id='List1']";
+        public const string divList = "//div[@id='List1']/div[@class='pic']";
         public const string KekeWebsite = "http://www.kekenet.com";
         public const string Down = "下载地址";
         public const string DownPath = @"d:\down";
