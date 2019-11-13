@@ -11,6 +11,7 @@ namespace HAP
         public const string divList = "//div[@id='List1']";
         public const string KekeWebsite = "http://www.kekenet.com";
         public const string Down = "下载地址";
+        public const string DownPath = @"d:\down";
         /// <summary>
         /// 不能用于Windows系统中文件名的字符
         /// </summary>

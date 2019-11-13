@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using Console = System.Console;
 
 namespace HAP
 {
@@ -15,16 +16,24 @@ namespace HAP
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start Url:");
-            var startUrl = Console.ReadLine();
+            Console.WriteLine("Start Urls:");
+            var startfile = Console.ReadLine();
+            if (!File.Exists(startfile))
+            {
+                Console.WriteLine("Wrong filepath.");
+                Console.ReadKey();
+                return;
+            }
+
+            var startUrls = File.ReadAllLines(startfile).ToList();
             var helper = new Helper();
-            var downPageUrls = helper.GetDownPageUrls(startUrl);
+            var files = helper.GetDownPageUrls(startUrls);
             Console.WriteLine("Analysising...");
-            var fileUrls = helper.GetFileUrl(downPageUrls);
-            if (helper.Export(fileUrls))
+            helper.GetFileUrl(ref files);
+            if (helper.Export(files))
                 Console.WriteLine("Export Successful!");
             Console.WriteLine("Processing...");
-            helper.Down(fileUrls);
+            helper.Down(files);
             Console.WriteLine("Complete!");
             Console.ReadKey();
         }
@@ -34,73 +43,104 @@ namespace HAP
     {
         private object locker = new object();
 
-        public Dictionary<string, string> GetDownPageUrls(string startUrl)
+        public List<FileClass> GetDownPageUrls(List<string> startUrls)
         {
-            var downPageUrls = new Dictionary<string, string>();
-            HtmlWeb htmlWeb = new HtmlWeb();
-            var htmlDoc = htmlWeb.Load(startUrl);
-            var node = htmlDoc.DocumentNode.SelectSingleNode(GlobalParas.divList);
-
-            foreach (HtmlNode secondNode in node.ChildNodes)
+            List<FileClass> files = new List<FileClass>();
+            startUrls.AsParallel().ForAll(a =>
             {
-                if (secondNode.Name == "div")
+                try
                 {
-                    foreach (HtmlNode thirdNode in secondNode.ChildNodes)
+                    var tmp = a.Split(',');
+                    var startUrl = tmp[0];
+                    var subjectTitle = tmp[1];
+                    //var downPageUrls = new Dictionary<string, string>();
+                    HtmlWeb htmlWeb = new HtmlWeb();
+                    var htmlDoc = htmlWeb.Load(startUrl);
+                    var node = htmlDoc.DocumentNode.SelectSingleNode(GlobalParas.divList);
+                    foreach (HtmlNode secondNode in node.ChildNodes)
                     {
-                        foreach (HtmlNode n in thirdNode.ChildNodes)
+                        if (secondNode.Name == "div")
                         {
-                            if (n.Name == "a")
+                            foreach (HtmlNode thirdNode in secondNode.ChildNodes)
                             {
-                                var title = n.Attributes["title"].Value;
-                                title = Util.FileHelper.FilenameFilter(title);
-                                var href = n.Attributes["href"].Value;
-                                href = href.Replace("/Article", "");
-                                var downurl = $"{GlobalParas.KekeWebsite}/mp3{href}";
-                                if (!downPageUrls.Keys.Contains(title))
-                                    downPageUrls.Add(title, downurl);
+                                foreach (HtmlNode n in thirdNode.ChildNodes)
+                                {
+                                    if (n.Name == "a")
+                                    {
+                                        var title = n.Attributes["title"].Value;
+                                        title = Util.FileHelper.FilenameFilter(title);
+                                        var href = n.Attributes["href"].Value;
+                                        href = href.Replace("/Article", "");
+                                        var downurl = $"{GlobalParas.KekeWebsite}/mp3{href}";
+
+                                        FileClass file = new FileClass();
+                                        file.DownPage = downurl;
+                                        file.Title = title;
+                                        file.LocalFullPath = Path.Combine(
+                                            GlobalParas.DownPath, subjectTitle, $"{title}.mp3");
+                                        files.Add(file);
+                                        //if (!downPageUrls.Keys.Contains(title))
+                                        //    downPageUrls.Add(title, downurl);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
-            return downPageUrls;
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            });
+            return files;
         }
 
 
-        public Dictionary<string, string> GetFileUrl(Dictionary<string, string> downPageUrls)
+        public void GetFileUrl(ref List<FileClass> files)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
-
-            downPageUrls.Keys.AsParallel().ForAll(key =>
+            files.AsParallel().ForAll(file =>
             {
-                downPageUrls.TryGetValue(key, out string value);
-                HtmlWeb htmlWeb = new HtmlWeb();
-                var htmlDoc = htmlWeb.Load(value);
-                var trNodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='list_box_2']/ul/table/tr");
-                foreach (HtmlNode tr in trNodes)
+                try
                 {
-                    if (tr.InnerText.Contains(GlobalParas.Down))
+                    HtmlWeb htmlWeb = new HtmlWeb();
+                    var htmlDoc = htmlWeb.Load(file.DownPage);
+                    var trNodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='list_box_2']/ul/table/tr");
+                    foreach (HtmlNode tr in trNodes)
                     {
-                        var aNode = tr.SelectSingleNode("./td/a");
-                        var href = aNode.Attributes["href"].Value;
-                        lock (locker)
+                        if (tr.InnerText.Contains(GlobalParas.Down))
                         {
-                            if (!result.Keys.Contains(key))
-                                result.Add(key, href);
+                            var aNode = tr.SelectSingleNode("./td/a");
+                            file.FileUrl = aNode.Attributes["href"].Value;
                         }
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             });
-            return result;
         }
 
 
-        public bool Export(Dictionary<string, string> fileUrls)
+        public bool Export(List<FileClass> files)
         {
             try
             {
-                foreach (KeyValuePair<string, string> item in fileUrls)
-                    File.AppendAllText(@"d:\down\add.txt", $"{item.Key}:{item.Value}\r\n");
+                var pathes = new List<string>();
+                files.ForEach(a=>pathes.Add(Path.GetDirectoryName(a.LocalFullPath)));
+                pathes = pathes.Distinct().ToList();
+                pathes.ForEach(path =>
+                {
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    List<string> export = new List<string>();
+                    files.ForEach(file =>
+                    {
+                        if (Path.GetDirectoryName(file.LocalFullPath) == path)
+                            export.Add($"{file.Title},{file.FileUrl}");
+                    });
+                    File.WriteAllLines($"{path}\\add.txt", export);
+                });
                 return true;
             }
             catch (Exception e)
@@ -111,26 +151,29 @@ namespace HAP
 
         }
 
-        public bool Down(Dictionary<string, string> fileUrls)
+        public bool Down(List<FileClass> files)
         {
             List<string> errors = new List<string>();
-            if (fileUrls != null)
+            if (files != null)
             {
-                fileUrls.Keys.AsParallel().ForAll(key =>
+                files.AsParallel().ForAll(file =>
                 {
                     using (WebClient wc = new WebClient())
                     {
-                        fileUrls.TryGetValue(key, out string value);
                         try
                         {
-                            if (!File.Exists(key))
-                                wc.DownloadFile(value, $"d:\\down\\{key}.mp3");
+                            if (!File.Exists(file.LocalFullPath))
+                            {
+                                if (!Directory.Exists(Path.GetDirectoryName(file.LocalFullPath)))
+                                    Directory.CreateDirectory(Path.GetDirectoryName(file.LocalFullPath));
+                                wc.DownloadFile(file.FileUrl, file.LocalFullPath);
+                            }
                         }
                         catch (Exception e)
                         {
                             lock (locker)
                             {
-                                errors.Add($"{key}——{value}：{e.Message}");
+                                errors.Add($"{file.Title}——{file.FileUrl}：{e.Message}");
                             }
                         }
                     }
@@ -152,5 +195,13 @@ namespace HAP
             return errors.Count > 0;
 
         }
+    }
+
+    public class FileClass
+    {
+        public string DownPage { get; set; }
+        public string FileUrl { get; set; }
+        public string Title { get; set; }
+        public string LocalFullPath { get; set; }
     }
 }
