@@ -66,8 +66,10 @@ namespace HAP
                         {
                             var title = node.Attributes["title"].Value;
                             title = FileHelper.FilenameFilter(title);
-                            var href = node.Attributes["href"].Value.Replace("/Article", "");
-                            var downurl = $"{GlobalParas.KekeWebsite}/mp3{href}";
+                            var href = node.Attributes["href"].Value;
+                            int secondSlash = href.Remove(0, 1).IndexOf("/");
+                            href = $"/mp3{href.Remove(0, secondSlash + 1)}";
+                            var downurl = $"{GlobalParas.KekeWebsite}{href}";
 
                             FileClass file = new FileClass(downurl);
                             file.Title = title;
